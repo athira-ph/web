@@ -1,0 +1,379 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap");
+
+:root {
+  color-scheme: light;
+  --ink: #20241f;
+  --muted: #777b72;
+  --paper: #f7f6f2;
+  --accent: #a45e43;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "DM Sans", sans-serif;
+}
+
+button {
+  font: inherit;
+}
+
+.page {
+  width: min(1160px, calc(100% - 64px));
+  margin: 0 auto;
+}
+
+.page-header {
+  position: relative;
+  padding: 32px 0 48px;
+  text-align: center;
+}
+
+.wordmark {
+  position: absolute;
+  top: 34px;
+  left: 0;
+  color: var(--ink);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.8px;
+  text-decoration: none;
+}
+
+.wordmark span {
+  color: var(--accent);
+}
+
+.eyebrow,
+.photo-caption,
+.page-footer,
+.slide-count {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+}
+
+.eyebrow {
+  margin: 46px 0 12px;
+  color: var(--accent);
+}
+
+h1 {
+  margin: 0;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(42px, 6vw, 68px);
+  font-weight: 500;
+  letter-spacing: -2.8px;
+  line-height: 1.1;
+}
+
+h1 em {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.intro {
+  max-width: 390px;
+  margin: 16px auto 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.gallery {
+  display: grid;
+  grid-auto-flow: dense;
+  grid-auto-rows: 220px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.gallery-item {
+  position: relative;
+  overflow: hidden;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 3px;
+  background: #d9d8d0;
+  cursor: zoom-in;
+  isolation: isolate;
+  text-align: left;
+}
+
+.gallery-item::after {
+  position: absolute;
+  z-index: 0;
+  inset: 35% 0 0;
+  background: linear-gradient(transparent, rgb(0 0 0 / 56%));
+  content: "";
+  pointer-events: none;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 500ms cubic-bezier(0.2, 0.7, 0.2, 1), filter 400ms ease;
+}
+
+.gallery-item:hover img,
+.gallery-item:focus-visible img {
+  filter: brightness(0.92);
+  transform: scale(1.055);
+}
+
+.gallery-item:focus-visible,
+.icon-button:focus-visible,
+.autoplay-button:focus-visible {
+  outline: 2px solid #d49b77;
+  outline-offset: 3px;
+}
+
+.item-tall {
+  grid-row: span 2;
+}
+
+.item-wide {
+  grid-column: span 2;
+}
+
+.photo-caption {
+  position: absolute;
+  z-index: 1;
+  right: 18px;
+  bottom: 16px;
+  left: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+  color: #fff;
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-shadow: 0 1px 8px rgb(0 0 0 / 25%);
+}
+
+.photo-caption span:last-child {
+  font-weight: 400;
+  letter-spacing: 0.2px;
+}
+
+.page-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 26px 0 32px;
+  color: #96988f;
+  font-size: 9px;
+}
+
+.lightbox {
+  position: fixed;
+  z-index: 5;
+  inset: 0;
+  display: grid;
+  visibility: hidden;
+  grid-template: 1fr auto / 72px minmax(0, 1fr) 72px;
+  align-items: center;
+  padding: 58px 24px 24px;
+  background: rgb(18 20 18 / 96%);
+  opacity: 0;
+  transition: opacity 180ms ease, visibility 180ms ease;
+}
+
+.lightbox.is-open {
+  visibility: visible;
+  opacity: 1;
+}
+
+.lightbox-figure {
+  display: grid;
+  grid-row: 1;
+  grid-column: 2;
+  justify-items: center;
+  min-width: 0;
+  max-height: 100%;
+  margin: 0;
+}
+
+.lightbox-image {
+  display: block;
+  max-width: 100%;
+  max-height: calc(100vh - 150px);
+  object-fit: contain;
+}
+
+.lightbox-caption {
+  margin-top: 14px;
+  color: #e5e4de;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 17px;
+}
+
+.icon-button {
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid rgb(255 255 255 / 25%);
+  border-radius: 50%;
+  background: rgb(255 255 255 / 5%);
+  color: #fff;
+  cursor: pointer;
+  transition: background 150ms ease, border-color 150ms ease;
+}
+
+.icon-button:hover {
+  border-color: rgb(255 255 255 / 60%);
+  background: rgb(255 255 255 / 14%);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 24px;
+  right: 28px;
+  width: 42px;
+  height: 42px;
+  font-size: 29px;
+  font-weight: 300;
+}
+
+.lightbox-arrow {
+  grid-row: 1;
+  width: 48px;
+  height: 48px;
+  font-family: Georgia, serif;
+  font-size: 30px;
+}
+
+.lightbox-arrow.previous {
+  grid-column: 1;
+  justify-self: start;
+}
+
+.lightbox-arrow.next {
+  grid-column: 3;
+  justify-self: end;
+}
+
+.lightbox-toolbar {
+  display: flex;
+  grid-row: 2;
+  grid-column: 2;
+  align-items: center;
+  justify-content: space-between;
+  width: min(100%, 680px);
+  margin: 18px auto 0;
+  color: #c9c9c2;
+}
+
+.slide-count {
+  color: #c9c9c2;
+}
+
+.autoplay-button {
+  padding: 9px 12px;
+  border: 1px solid rgb(255 255 255 / 25%);
+  border-radius: 2px;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  font-size: 11px;
+  transition: background 150ms ease;
+}
+
+.autoplay-button:hover {
+  background: rgb(255 255 255 / 12%);
+}
+
+.autoplay-button span {
+  margin-left: 7px;
+  color: #d49b77;
+}
+
+body.has-lightbox {
+  overflow: hidden;
+}
+
+@media (max-width: 700px) {
+  .page {
+    width: min(100% - 36px, 540px);
+  }
+
+  .page-header {
+    padding: 26px 0 32px;
+  }
+
+  .wordmark {
+    position: static;
+    display: inline-block;
+  }
+
+  .eyebrow {
+    margin-top: 36px;
+  }
+
+  .gallery {
+    grid-auto-rows: 180px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .item-wide {
+    grid-column: span 2;
+  }
+
+  .item-tall {
+    grid-row: span 2;
+  }
+
+  .photo-caption {
+    right: 10px;
+    bottom: 11px;
+    left: 10px;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 8px;
+  }
+
+  .page-footer {
+    flex-direction: column;
+    align-items: center;
+    padding-top: 22px;
+    font-size: 8px;
+  }
+
+  .lightbox {
+    grid-template-columns: 42px minmax(0, 1fr) 42px;
+    padding: 58px 10px 20px;
+  }
+
+  .lightbox-arrow {
+    width: 36px;
+    height: 36px;
+    font-size: 24px;
+  }
+
+  .lightbox-image {
+    max-height: calc(100vh - 170px);
+  }
+
+  .lightbox-caption {
+    font-size: 15px;
+    text-align: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
